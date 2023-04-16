@@ -9,8 +9,16 @@
      <div v-else-if="email.length < 15">Twój adres e-mail jest w sam raz.</div>
      <div v-else>Twój adres e-mail jest stanowczo za długi.</div>
      <button @click="alertMyEmail()">Display my email address in alert</button>-->
-    <LoginForm v-if="loggedIn == false" @login="(username) => logMeIn(username)"></LoginForm>
-    <button v-if="loggedIn" @click="logMeOut()">Wyloguj</button>
+<!--
+    <LoginForm v-if="email.length == 0" @login="(username) => logMeIn(username)" buttonLabel="to jest label"></LoginForm>
+-->
+
+    <LoginForm v-if="email.length == 0" @login="(username) => logMeIn(username)" button-label="Wejdź"></LoginForm>
+    <LoginForm v-if="email.length == 0" @login="(username) => logMeIn(username)" button-label="Wleć"></LoginForm>
+    <LoginForm v-if="email.length == 0" @login="(username) => logMeIn(username)" :button-label="Math.random() < 0.5 ? 'Etykieta A' : 'Etykieta B'"></LoginForm>
+
+    <p v-if="this.email.length > 0"> Zalogowany jako {{email}}</p>
+    <button v-if="email.length > 0" @click="logMeOut()">Wyloguj</button>
   </div>
 </template>
 
@@ -22,8 +30,8 @@ export default {
   components: {LoginForm},
   data() {
     return {
+      email: '',
       password: '',
-      loggedIn: false
     };
   },
   methods: {
@@ -31,11 +39,9 @@ export default {
       alert(this.email);
     },
     logMeIn(username) {
-      this.loggedIn = true;
       this.email = username;
     },
     logMeOut(){
-      this.loggedIn = false;
       this.email = '';
     }
   }
